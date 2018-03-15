@@ -46,11 +46,10 @@ def get_daily_score(web):
         visitor = game['vTeam']
         info = game['nugget']
         location = game['arena']
-        start_time = game['startTimeUTC'].encode('utf-8')
-        utc_format = '%Y-%m-%dT%H:%M:%S.%fZ'
+        start_time = game['startTimeUTC']
+        utc_format = "%Y-%m-%dT%H:%M:%S.%fZ"
         utc_time = datetime.strptime(start_time, utc_format)
         local_time = utc_time + timedelta(hours=-8)
-
         table = PrettyTable(['Team', 'W/L', 'Score'])
         table.add_row([
             '({:>3}) {:^23}'.format(visitor['triCode'], team_name(visitor['triCode'])),
@@ -91,7 +90,7 @@ def next_game(team):
                     team_A = team_name(host['triCode'])
                     team_B = team_name(visitor['triCode'])
 
-                    start_time = game['startTimeUTC'].encode('utf-8')
+                    start_time = game['startTimeUTC']
                     utc_format = '%Y-%m-%dT%H:%M:%S.%fZ'
                     utc_time = datetime.strptime(start_time, utc_format)
                     local_time = utc_time + timedelta(hours=-8)
@@ -130,8 +129,8 @@ def get_hist_score(team_A, team_B):
     year = ['2018', '2017']
 
     win = 0
-    for i in xrange(len(year)):
-        for j in xrange(len(month)):
+    for i in range(len(year)):
+        for j in range(len(month)):
             try:
                 res = requests.get('https://www.basketball-reference.com/leagues/NBA_{}_games-{}.html'.format(year[i], month[j]))
                 bs4_html = BeautifulSoup(res.text, "html.parser")
@@ -192,7 +191,7 @@ if __name__ == "__main__":
     next_game = next_game(team)
     # get_hist_score(next_game[0], next_game[1])
 
-    print '\n'.join(message)
+    print ('\n'.join(message))
 
-    email_subject = 'NBA daily report!!\n'
-    send_email(email_subject, '\n'.join(message))
+    # email_subject = 'NBA daily report!!\n'
+    # send_email(email_subject, '\n'.join(message))
