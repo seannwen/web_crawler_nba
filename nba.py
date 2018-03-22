@@ -193,5 +193,5 @@ if __name__ == "__main__":
 
     print ('\n'.join(message))
 
-    # email_subject = 'NBA daily report!!\n'
-    # send_email(email_subject, '\n'.join(message))
+    email_subject = 'NBA daily report!!\n'
+    send_email(email_subject, '\n'.join(message))
