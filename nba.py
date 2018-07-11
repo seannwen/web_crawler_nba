@@ -183,15 +183,15 @@ if __name__ == "__main__":
 
     # team_abbr = raw_input("Please enter the team abbreviation(Ex: CLE): \n")
     # team = insert_sting_middle('''''', team_abbr.upper())
-    team = 'CLE'
+    team = 'LAL'
 
     web = get_web_data(date)  # get the data from website
     get_daily_score(web)
     # print '\n'.join(message)
-    next_game = next_game(team)
+    # next_game = next_game(team)  # get the data of next game
     # get_hist_score(next_game[0], next_game[1])
 
     print ('\n'.join(message))
 
-    email_subject = 'NBA daily report!!\n'
-    send_email(email_subject, '\n'.join(message))
+    # email_subject = 'NBA daily report!!\n'
+    # send_email(email_subject, '\n'.join(message))
