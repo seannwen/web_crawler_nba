@@ -51,7 +51,7 @@ def get_daily_score(web):
         utc_time = datetime.strptime(start_time, utc_format)
         local_time = utc_time + timedelta(hours=-8)
         table = PrettyTable(['Team', 'W/L', 'Score'])
-        team_dict = team_name()
+
         table.add_row([
             '({:>3}) {:^23}'.format(visitor['triCode'], team_dict[visitor['triCode']]),
             'W{}/L{}'.format(visitor['win'], visitor['loss']),
@@ -88,8 +88,8 @@ def next_game(team):
                 if host['triCode'] == '{}'.format(team) or visitor['triCode'] == '{}'.format(team):
 
                     location = game['arena']
-                    team_A = team_name(host['triCode'])
-                    team_B = team_name(visitor['triCode'])
+                    team_A = team_dict[(host['triCode'])]
+                    team_B = team_dict[(visitor['triCode'])]
 
                     start_time = game['startTimeUTC']
                     utc_format = '%Y-%m-%dT%H:%M:%S.%fZ'
@@ -104,16 +104,16 @@ def next_game(team):
 
                     message.append("The next game for the {}({}) will be on {}/{}/{}\n{} (W{}\
 /L{}) vs {} (W{}/L{})\nThe {}({}) in this series (W{}/L{})\nLocation: {}\nTime: {} \n"
-                        .format(team_name(team),
+                        .format(team_dict[(team)],
                                 team,
                                 date[:4], date[4:6], date[6:],
-                                team_name(visitor['triCode']),
+                                team_dict[(visitor['triCode'])],
                                 visitor['win'],
                                 visitor['loss'],
-                                team_name(host['triCode']),
+                                team_dict[(host['triCode'])],
                                 host['win'],
                                 host['loss'],
-                                team_name(team),
+                                team_dict[(team)],
                                 team,
                                 series_win,
                                 series_loss,
@@ -176,19 +176,28 @@ def get_hist_score(team_A, team_B):
 
 if __name__ == "__main__":
     message = []
-    datetime = datetime.today()
-    date = datetime.strftime("%Y%m%d")
 
-    # date = raw_input('Please enter the date(Ex: 20180101): \n')
+    team_dict = team_name()
+    date = input('Please enter the date(Ex: 20180101)(Default: Present): \n')
+    if not date:
+        datetime = datetime.today()
+        date = datetime.strftime("%Y%m%d")
+    else:
+        date
+
     # date = '20170306'
 
-    # team_abbr = raw_input("Please enter the team abbreviation(Ex: CLE): \n")
+    team_abbr = input("Please enter a team name with abbreviation(Default: LAL): \n")
+    if not team_abbr:
+        team = 'LAL'
+    else:
+        team = team_abbr
     # team = insert_sting_middle('''''', team_abbr.upper())
-    team = 'LAL'
+
     web = get_web_data(date)  # get the data from website
     get_daily_score(web)
     # print '\n'.join(message)
-    # next_game = next_game(team)  # get the data of next game
+    next_game = next_game(team)  # get the data of next game
     # get_hist_score(next_game[0], next_game[1])
 
     print ('\n'.join(message))
